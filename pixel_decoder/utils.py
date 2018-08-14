@@ -8,16 +8,16 @@ random.seed(1)
 import tensorflow as tf
 tf.set_random_seed(1)
 import timeit
-from PIL import Image
-from sklearn.model_selection import KFold
+# from PIL import Image
 import cv2
-from keras.optimizers import SGD, Adam
-from keras import metrics
-from keras.callbacks import ModelCheckpoint
-from pixel_decoder.resnet_unet import get_resnet_unet
-from pixel_decoder.loss import dice_coef, dice_logloss2, dice_logloss3, dice_coef_rounded, dice_logloss
+# from sklearn.model_selection import KFold
+# from keras.optimizers import SGD, Adam
+# from keras import metrics
+# from keras.callbacks import ModelCheckpoint
+# from pixel_decoder.resnet_unet import get_resnet_unet
+# from pixel_decoder.loss import dice_coef, dice_logloss2, dice_logloss3, dice_coef_rounded, dice_logloss
 import skimage.io
-import keras.backend as K
+# import keras.backend as K
 
 def dataformat(fn):
     basename, ext = os.path.splitext(fn)
@@ -101,8 +101,14 @@ def rotate_image(image, angle, scale):
 
  # = cache_stats(imgs_folder)
 
-def batch_data_generator(train_idx, batch_size, means, stds, channel_no = 3, input_shape = (320, 320), origin_shape = (325, 325)):
+def batch_data_generator(train_idx, batch_size, means, stds, channel_no = 3, border_no=32, origin_shape_no = 256):
+    # all_files, all_masks = datafiles()
+    origin_shape = (origin_shape_no, origin_shape_no)
+    border = (border_no, border_no)
     all_files, all_masks = datafiles()
+    # means, stds = cache_stats(imgs_folder)
+    input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
+    # input_shape = ()
     inputs = []
     outputs = []
     rgb_index = [0, 1, 2]
@@ -154,7 +160,12 @@ def batch_data_generator(train_idx, batch_size, means, stds, channel_no = 3, inp
                 inputs = []
                 outputs = []
 
-def val_data_generator(val_idx, batch_size, validation_steps, means, stds, channel_no = 3, input_shape = (320, 320), origin_shape = (325, 325)):
+def val_data_generator(val_idx, batch_size, validation_steps, means, stds, channel_no = 3, border_no=32, origin_shape_no = 256):
+    origin_shape = (origin_shape_no, origin_shape_no)
+    border = (border_no, border_no)
+    all_files, all_masks = datafiles()
+    # means, stds = cache_stats(imgs_folder)
+    input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     all_files,all_masks = datafiles()
     rgb_index = [0, 1, 2]
     while True:

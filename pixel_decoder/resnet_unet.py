@@ -1,11 +1,11 @@
 # from keras.applications.vgg16 import VGG16
-from keras import backend as K
+# from keras import backend as K
 from keras.models import Model
-from keras.layers import Input, BatchNormalization, Conv2D, MaxPooling2D, AveragePooling2D, concatenate, Concatenate, UpSampling2D, Activation, SpatialDropout2D, RepeatVector, Reshape
+from keras.layers import Input, BatchNormalization, Conv2D, MaxPooling2D, concatenate, UpSampling2D, Activation
 from pixel_decoder.resnet_back import ResNet50, identity_block
 from pixel_decoder.resnet_back import conv_block as resnet_conv_block
-from keras.losses import binary_crossentropy
-from loss import dice_coef, dice_coef_rounded, dice_coef_loss, dice_logloss, dice_logloss2, dice_logloss3, weighted_bce_loss, weighted_bce_dice_loss
+# from keras.losses import binary_crossentropy
+# from loss import dice_coef, dice_coef_rounded, dice_coef_loss, dice_logloss, dice_logloss2, dice_logloss3, weighted_bce_loss, weighted_bce_dice_loss
 # bn_axis = 3
 # channel_axis = bn_axis
 

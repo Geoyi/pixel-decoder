@@ -17,14 +17,16 @@ np.seterr(divide='ignore', invalid='ignore')
 from pixel_decoder.utils import stats_data, open_image, preprocess_inputs_std, datafiles, cache_stats
 from pixel_decoder.resnet_unet import get_resnet_unet
 
-def predict(origin_shape, border, imgs_folder, masks_folder, models_folder, pred_folder, origin_shape, channel_no=3, model_id='resnet_unet'):
+def predict(origin_shape, imgs_folder, models_folder, pred_folder, origin_shape_no=256, border_no=32, channel_no=3, model_id='resnet_unet'):
+    origin_shape = (origin_shape_no, origin_shape_no)
+    rgb_index = [0, 1, 2]
+    border = (border_no, border_no)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     means, stds = cache_stats(imgs_folder)
-    rgb_index = [0, 1, 2]
     if not path.isdir(pred_folder):mkdir(os.path.join(os.getcwd(),pred_folder))
-    if not path.isdir(path.join(pred_folder, model_name)):mkdir(path.join(pred_folder, model_name))
-    if not path.isdir(path.join(pred_folder, model_name)):mkdir(path.join(pred_folder, model_name))
-    if not path.isdir(path.join(path.join(pred_folder, model_name))):mkdir(path.join(path.join(pred_folder, model_name)))
+    if not path.isdir(path.join(pred_folder, model_id)):mkdir(path.join(pred_folder, model_id))
+    if not path.isdir(path.join(pred_folder, model_id)):mkdir(path.join(pred_folder, model_id))
+    if not path.isdir(path.join(path.join(pred_folder, model_name))):mkdir(path.join(path.join(pred_folder, model_id)))
     if model_id == 'resnet_unet':
         model = get_resnet_unet(input_shape, channel_no)
     else:

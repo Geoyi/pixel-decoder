@@ -30,7 +30,7 @@ from keras.utils import layer_utils
 from keras.utils.data_utils import get_file
 # from keras.applications.imagenet_utils import decode_predictions
 # from keras.applications.imagenet_utils import preprocess_input
-from keras.applications.imagenet_utils import _obtain_input_shape
+# from keras.applications.imagenet_utils import _obtain_input_shape
 
 
 WEIGHTS_PATH = 'https://github.com/fchollet/deep-learning-models/releases/download/v0.2/resnet50_weights_tf_dim_ordering_tf_kernels.h5'
@@ -184,12 +184,12 @@ def ResNet50(include_top=True, weights='imagenet',
                          ' as true, `classes` should be 1000')
 
     # Determine proper input shape
-    input_shape = _obtain_input_shape(input_shape,
-                                      default_size=224,
-                                      min_size=197,
-                                      data_format=K.image_data_format(),
-                                      require_flatten=include_top,
-                                      weights=weights)
+    # input_shape = _obtain_input_shape(input_shape,
+    #                                   default_size=224,
+    #                                   min_size=197,
+    #                                   data_format=K.image_data_format(),
+    #                                   require_flatten=include_top,
+    #                                   weights=weights)
 
     if input_tensor is None:
         img_input = Input(shape=input_shape)

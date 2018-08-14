@@ -31,7 +31,7 @@ import keras.backend as K
 def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet_unet', origin_shape_no=256, border_no=32, channel_no = 3):
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
-    all_files, all_masks = datafiles()
+    all_files, all_masks = datafiles(imgs_folder, masks_folder, models_folder)
     means, stds = cache_stats(imgs_folder)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     if model_id == 'resnet_unet':
@@ -71,6 +71,8 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet
         random.seed(11)
         tf.set_random_seed(11)
         print(model.summary())
+        batch_data_generat = batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256)
+        val_data_generat = val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256)
 
 
         model.compile(loss=dice_logloss3,
@@ -79,9 +81,9 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet
 
         model_checkpoint = ModelCheckpoint(path.join(models_folder, '{}_weights.h5'.format(model_id)), monitor='val_dice_coef_rounded',
                                          save_best_only=True, save_weights_only=True, mode='max')
-        model.fit_generator(generator=batch_data_generator(train_idx, batch_size, means, stds),
+        model.fit_generator(generator=batch_data_generat,
                             epochs=25, steps_per_epoch=steps_per_epoch, verbose=2,
-                            validation_data=val_data_generator(val_idx, batch_size, validation_steps, means, stds),
+                            validation_data=val_data_generat,
                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint])
         for l in model.layers:
@@ -90,15 +92,15 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet
                     optimizer=Adam(lr=1e-3),
                     metrics=[dice_coef, dice_coef_rounded, metrics.binary_crossentropy])
 
-        model.fit_generator(generator=batch_data_generator(train_idx, batch_size, means, stds),
+        model.fit_generator(generator=batch_data_generat,
                             epochs=40, steps_per_epoch=steps_per_epoch, verbose=2,
-                            validation_data=val_data_generator(val_idx, batch_size, validation_steps, means, stds),
+                            validation_data=val_data_generat,
                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint])
         model.optimizer = Adam(lr=2e-4)
-        model.fit_generator(generator=batch_data_generator(train_idx, batch_size, means, stds),
+        model.fit_generator(generator=batch_data_generat,
                             epochs=25, steps_per_epoch=steps_per_epoch, verbose=2,
-                            validation_data=val_data_generator(val_idx, batch_size, validation_steps, means, stds),
+                            validation_data=val_data_generat,
                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint])
 
@@ -111,15 +113,15 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet
                     metrics=[dice_coef, dice_coef_rounded, metrics.binary_crossentropy])
         model_checkpoint2 = ModelCheckpoint(path.join(models_folder, '{}_weights2.h5'.format(model_id)), monitor='val_dice_coef_rounded',
                                          save_best_only=True, save_weights_only=True, mode='max')
-        model.fit_generator(generator=batch_data_generator(train_idx, batch_size, means, stds),
+        model.fit_generator(generator=batch_data_generat,
                             epochs=30, steps_per_epoch=steps_per_epoch, verbose=2,
-                            validation_data=val_data_generator(val_idx, batch_size, validation_steps, means, stds),
+                            validation_data=val_data_generat,
                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint2])
         optimizer=Adam(lr=1e-5)
-        model.fit_generator(generator=batch_data_generator(train_idx, batch_size, means, stds),
+        model.fit_generator(generator=batch_data_generat,
                             epochs=20, steps_per_epoch=steps_per_epoch, verbose=2,
-                            validation_data=val_data_generator(val_idx, batch_size, validation_steps, means, stds),
+                            validation_data=val_data_generat,
                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint2])
 
@@ -132,9 +134,9 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet
                     metrics=[dice_coef, dice_coef_rounded, metrics.binary_crossentropy])
         model_checkpoint3 = ModelCheckpoint(path.join(models_folder, '{}_weights3.h5'.format(model_id)), monitor='val_dice_coef_rounded',
                                          save_best_only=True, save_weights_only=True, mode='max')
-        model.fit_generator(generator=batch_data_generator(train_idx, batch_size, means, stds),
+        model.fit_generator(generator=batch_data_generat,
                             epochs=50, steps_per_epoch=steps_per_epoch, verbose=2,
-                            validation_data=val_data_generator(val_idx, batch_size, validation_steps, means, stds),
+                            validation_data=val_data_generat,
                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint3])
 
@@ -147,9 +149,9 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet
                     metrics=[dice_coef, dice_coef_rounded, metrics.binary_crossentropy])
         model_checkpoint4 = ModelCheckpoint(path.join(models_folder, '{}_weights4.h5'.format(model_id)), monitor='val_dice_coef_rounded',
                                          save_best_only=True, save_weights_only=True, mode='max')
-        model.fit_generator(generator=batch_data_generator(train_idx, batch_size, means, stds),
+        model.fit_generator(generator=batch_data_generat,
                             epochs=50, steps_per_epoch=steps_per_epoch, verbose=2,
-                            validation_data=val_data_generator(val_idx, batch_size, validation_steps, means, stds),
+                            validation_data=val_data_generat,
                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint4])
         K.clear_session()

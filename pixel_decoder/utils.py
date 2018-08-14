@@ -73,13 +73,13 @@ def preprocess_inputs_std(x, mean, std):
     x[zero_msk] = 0
     return x
 
-def datafiles():
+def datafiles(imgs_folder, masks_folder, models_folder):
     all_files = []
     all_masks = []
     t0 = timeit.default_timer()
-    imgs_folder = sys.argv[2]
-    masks_folder = os.path.join(os.getcwd(),sys.argv[3])
-    models_folder = os.path.join(os.getcwd(),sys.argv[4])
+    # imgs_folder = sys.argv[2]
+    # masks_folder = os.path.join(os.getcwd(),sys.argv[3])
+    # models_folder = os.path.join(os.getcwd(),sys.argv[4])
     if not path.isdir(models_folder):
         mkdir(models_folder)
     for f in sorted(listdir(path.join(os.getcwd(), imgs_folder))):
@@ -91,9 +91,9 @@ def datafiles():
     all_masks = np.asarray(all_masks)
     return all_files, all_masks
 
-
-def rotate_image(image, angle, scale):
-    all_files,all_masks = datafiles()
+# all_files,all_masks = datafiles(imgs_folder, masks_folder, models_folder)
+def rotate_image(image, angle, scale, imgs_folder, masks_folder, models_folder):
+    all_files,all_masks = datafiles(imgs_folder, masks_folder, models_folder)
     image_center = tuple(np.array(image.shape[:2])/2)
     rot_mat = cv2.getRotationMatrix2D(image_center, angle, scale)
     result = cv2.warpAffine(image, rot_mat, image.shape[:2],flags=cv2.INTER_LINEAR)
@@ -101,11 +101,11 @@ def rotate_image(image, angle, scale):
 
  # = cache_stats(imgs_folder)
 
-def batch_data_generator(train_idx, batch_size, means, stds, channel_no = 3, border_no=32, origin_shape_no = 256):
+def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256):
     # all_files, all_masks = datafiles()
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
-    all_files, all_masks = datafiles()
+    all_files, all_masks = datafiles(imgs_folder, masks_folder, models_folder)
     # means, stds = cache_stats(imgs_folder)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     # input_shape = ()
@@ -130,8 +130,8 @@ def batch_data_generator(train_idx, batch_size, means, stds, channel_no = 3, bor
             if random.random() > 0.5:
                 scale = 0.9 + random.random() * 0.2
                 angle = random.randint(0, 41) - 24
-                img = rotate_image(img, angle, scale)
-                msk = rotate_image(msk, angle, scale)
+                img = rotate_image(img, angle, scale, imgs_folder, masks_folder, models_folder)
+                msk = rotate_image(msk, angle, scale, imgs_folder, masks_folder, models_folder)
 
             x0 = random.randint(0, img.shape[1] - input_shape[1])
             y0 = random.randint(0, img.shape[0] - input_shape[0])
@@ -160,13 +160,13 @@ def batch_data_generator(train_idx, batch_size, means, stds, channel_no = 3, bor
                 inputs = []
                 outputs = []
 
-def val_data_generator(val_idx, batch_size, validation_steps, means, stds, channel_no = 3, border_no=32, origin_shape_no = 256):
+def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256):
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
-    all_files, all_masks = datafiles()
+    all_files, all_masks = datafiles(imgs_folder, masks_folder, models_folder)
     # means, stds = cache_stats(imgs_folder)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
-    all_files,all_masks = datafiles()
+    all_files,all_masks = datafiles(imgs_folder, masks_folder, models_folder)
     rgb_index = [0, 1, 2]
     while True:
         inputs = []

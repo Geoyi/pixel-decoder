@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 def parse_args(args):
-    desc = 'PACKAGENAME (v%s)' % __version__
+    desc = 'pixel_decoder (v%s)' % __version__
     dhf = argparse.ArgumentDefaultsHelpFormatter
     parser0 = argparse.ArgumentParser(description=desc)
 

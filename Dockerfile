@@ -7,9 +7,6 @@ RUN sed -i "s/httpredir.debian.org/debian.uchicago.edu/" /etc/apt/sources.list &
     apt-get update && apt-get install -y build-essential && \
     apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
     libglib2.0-0 libxext6 libsm6 libxrender1 \
-    apt-get install -y nodejs \
-    apt-get clean && apt-get update\
-    apt-get install -y npm\
     git mercurial subversion zip unzip
 
 # install Anaconda3
@@ -35,9 +32,10 @@ RUN conda install opencv \
     shapely \
     tensorflow-gpu \
     keras \
-    scikit-learn
-RUN npm init -y && npm install install @mapbox/tilebelt \
-    npm install wellknown
+    scikit-learn \
+    jupyter
+
+ENV PYCURL_SSL_LIBRARY=nss
 
 
 WORKDIR /work

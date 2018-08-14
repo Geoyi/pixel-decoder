@@ -26,7 +26,7 @@ from pixel_decoder.utils import datafiles, stats_data, cache_stats, preprocess_i
 # masks_folder = sys.argv[3]
 # models_folder =sys.argv[4]
 
-def model(batch_size, input_shape, channel_no, imgs_folder, masks_folder,models_folder, model_id='resnet_unet'):
+def model(batch_size, origin_shape, channel_no, imgs_folder, masks_folder, models_folder, model_id='resnet_unet'):
     all_files, all_masks = datafiles()
     means, stds = cache_stats(imgs_folder)
     if model_id == 'resnet_unet':

@@ -101,7 +101,7 @@ def rotate_image(image, angle, scale, imgs_folder, masks_folder, models_folder):
 
  # = cache_stats(imgs_folder)
 
-def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256):
+def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no, border_no, origin_shape_no):
     # all_files, all_masks = datafiles()
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
@@ -160,7 +160,7 @@ def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_
                 inputs = []
                 outputs = []
 
-def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256):
+def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no, border_no, origin_shape_no):
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
     all_files, all_masks = datafiles(imgs_folder, masks_folder, models_folder)

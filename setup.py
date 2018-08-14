@@ -18,7 +18,7 @@ dependency_links = [x.strip().replace('git+', '') for x in all_reqs if 'git+' no
 #readme
 with open('README.md') as f:
     readme = f.read()
-    
+
 setup(
     name='pixel_decoder',
     author='Zhuangfang NaNa Yi',

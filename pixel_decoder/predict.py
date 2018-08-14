@@ -17,7 +17,7 @@ np.seterr(divide='ignore', invalid='ignore')
 from pixel_decoder.utils import stats_data, open_image, preprocess_inputs_std, cache_stats
 from pixel_decoder.resnet_unet import get_resnet_unet
 
-def predict(origin_shape, imgs_folder, models_folder, pred_folder, origin_shape_no=256, border_no=32, channel_no=3, model_id='resnet_unet'):
+def predict(origin_shape, imgs_folder, models_folder, pred_folder, origin_shape_no, border_no, channel_no, model_id):
     origin_shape = (origin_shape_no, origin_shape_no)
     rgb_index = [0, 1, 2]
     border = (border_no, border_no)
@@ -25,8 +25,6 @@ def predict(origin_shape, imgs_folder, models_folder, pred_folder, origin_shape_
     means, stds = cache_stats(imgs_folder)
     if not path.isdir(pred_folder):mkdir(os.path.join(os.getcwd(),pred_folder))
     if not path.isdir(path.join(pred_folder, model_id)):mkdir(path.join(pred_folder, model_id))
-    if not path.isdir(path.join(pred_folder, model_id)):mkdir(path.join(pred_folder, model_id))
-    if not path.isdir(path.join(path.join(pred_folder, model_name))):mkdir(path.join(path.join(pred_folder, model_id)))
     if model_id == 'resnet_unet':
         model = get_resnet_unet(input_shape, channel_no)
     else:
@@ -64,4 +62,4 @@ def predict(origin_shape, imgs_folder, models_folder, pred_folder, origin_shape_
             mask = mask[mask_index1:mask_index2, mask_index1:mask_index2, ...]
             mask = mask * 255
             mask = mask.astype('uint8')
-            cv2.imwrite(path.join(pred_folder, model_name,'{}.png'.format(img_id)), mask, [cv2.IMWRITE_PNG_COMPRESSION, 9])
+            cv2.imwrite(path.join(pred_folder, model_id,'{}.png'.format(img_id)), mask, [cv2.IMWRITE_PNG_COMPRESSION, 9])

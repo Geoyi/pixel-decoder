@@ -15,6 +15,7 @@ from keras.optimizers import SGD, Adam
 from keras import metrics
 from keras.callbacks import ModelCheckpoint
 from pixel_decoder.loss import dice_coef, dice_logloss2, dice_logloss3, dice_coef_rounded, dice_logloss
+from pixel_decoder.resnet_unet import get_resnet_unet
 # import skimage.io
 import keras.backend as K
 
@@ -28,14 +29,13 @@ import keras.backend as K
 # masks_folder = sys.argv[3]
 # models_folder =sys.argv[4]
 
-def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet_unet', origin_shape_no=256, border_no=32, channel_no = 3):
+def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin_shape_no, border_no, channel_no):
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
     all_files, all_masks = datafiles(imgs_folder, masks_folder, models_folder)
     means, stds = cache_stats(imgs_folder)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     if model_id == 'resnet_unet':
-        from pixel_decoder.resnet_unet import get_resnet_unet
         model = get_resnet_unet(input_shape, channel_no)
     # elif model_id == 'inception_unet':
     #     from pixel_decoder.inception_unet import get_inception_resnet_v2_unet

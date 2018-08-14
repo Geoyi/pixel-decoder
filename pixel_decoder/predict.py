@@ -3,39 +3,29 @@ import os
 import sys
 from os import path, listdir, mkdir
 import numpy as np
-np.random.seed(1)
 import random
-random.seed(1)
 import tensorflow as tf
-tf.set_random_seed(1)
+
 import timeit
 import cv2
-# from models import get_resnet_unet
-import skimage.io
+# import skimage.io
 from tqdm import tqdm
-from data_utils import stats_data, open_image, preprocess_inputs_std, datafiles, cache_stats
+np.random.seed(1)
+tf.set_random_seed(1)
 np.seterr(divide='ignore', invalid='ignore')
-
+from pixel_decoder.utils import stats_data, open_image, preprocess_inputs_std, datafiles, cache_stats
 
 def predict(origin_shape, border, imgs_folder, masks_folder, models_folder, pred_folder, channel_no=3, model_id='resnet_unet'):
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     means, stds = cache_stats(imgs_folder)
     rgb_index = [0, 1, 2]
-    if not path.isdir(pred_folder):
-        mkdir(os.path.join(os.getcwd(),pred_folder))
-
-    if not path.isdir(path.join(pred_folder, model_name)):
-        mkdir(path.join(pred_folder, model_name))
-
-    if not path.isdir(path.join(pred_folder, model_name)):
-        mkdir(path.join(pred_folder, model_name))
-
-    if not path.isdir(path.join(path.join(pred_folder, model_name))):
-        mkdir(path.join(path.join(pred_folder, model_name)))
+    if not path.isdir(pred_folder):mkdir(os.path.join(os.getcwd(),pred_folder))
+    if not path.isdir(path.join(pred_folder, model_name)):mkdir(path.join(pred_folder, model_name))
+    if not path.isdir(path.join(pred_folder, model_name)):mkdir(path.join(pred_folder, model_name))
+    if not path.isdir(path.join(path.join(pred_folder, model_name))):mkdir(path.join(path.join(pred_folder, model_name)))
     if model_id == 'resnet_unet':
         from resnet_unet import get_resnet_unet
         model = get_resnet_unet(input_shape, channel_no)
-
     else:
         from inception_unet import get_inception_resnet_v2_unet
         model = get_inception_resnet_v2_unet(input_shape, channel_no)

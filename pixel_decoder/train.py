@@ -26,9 +26,10 @@ from pixel_decoder.utils import datafiles, stats_data, cache_stats, preprocess_i
 # masks_folder = sys.argv[3]
 # models_folder =sys.argv[4]
 
-def model(batch_size, origin_shape, channel_no, imgs_folder, masks_folder, models_folder, model_id='resnet_unet'):
+def train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet_unet', origin_shape=(256, 256), border=(32, 32), channel_no = 3):
     all_files, all_masks = datafiles()
     means, stds = cache_stats(imgs_folder)
+    input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     if model_id == 'resnet_unet':
         from pixel_decoder.resnet_unet import get_resnet_unet
         model = get_resnet_unet(input_shape, channel_no)

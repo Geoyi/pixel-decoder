@@ -153,7 +153,8 @@ if __name__=="__main__":
     channel_no = 3
     origin_shape = (int(origin_shape_no), int(origin_shape_no))
     border = (int(border_no), int(border_no))
-    input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
+    # input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
+    input_shape = origin_shape
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])

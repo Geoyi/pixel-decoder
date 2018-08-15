@@ -1,4 +1,4 @@
-# import os
+import os
 from os import path, mkdir
 from pixel_decoder.utils import datafiles, cache_stats, batch_data_generator, val_data_generator
 # import sys
@@ -25,7 +25,7 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
-    all_files, all_masks = datafiles(imgs_folder, masks_folder, models_folder)
+    all_files, all_masks = datafiles(imgs_folder, masks_folder)
     means, stds = cache_stats(imgs_folder)
     if model_id == 'resnet_unet':
         model = get_resnet_unet(input_shape, channel_no)
@@ -57,8 +57,8 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin
         random.seed(11)
         tf.set_random_seed(11)
         print(model.summary())
-        batch_data_generat = batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256)
-        val_data_generat = val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256)
+        batch_data_generat = batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no, border_no, origin_shape_no)
+        val_data_generat = val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no, border_no, origin_shape_no)
 
 
         model.compile(loss=dice_logloss3,
@@ -141,3 +141,17 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin
                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint4])
         K.clear_session()
+
+if __name__=="__main__":
+    batch_size = 4
+    imgs_folder = os.path.join(os.getcwd(), "tiles")
+    masks_folder = os.path.join(os.getcwd(), "labels")
+    models_folder = os.path.join(os.getcwd(), "out_models")
+    model_id='resnet_unet'
+    origin_shape_no=256
+    border_no=32
+    channel_no = 3
+    origin_shape = (int(origin_shape_no), int(origin_shape_no))
+    border = (int(border_no), int(border_no))
+    input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
+    train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin_shape_no, border_no, channel_no)

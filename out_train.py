@@ -155,9 +155,9 @@ if __name__=="__main__":
     border = (int(border_no), int(border_no))
     # input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     input_shape = origin_shape
-    origin_shape = (origin_shape_no, origin_shape_no)
-    border = (border_no, border_no)
-    input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
+    # origin_shape = (origin_shape_no, origin_shape_no)
+    # border = (border_no, border_no)
+    # input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     all_files, all_masks = datafiles(imgs_folder, masks_folder)
     means, stds = cache_stats(imgs_folder)
     if model_id == 'resnet_unet':

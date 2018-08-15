@@ -17,7 +17,7 @@ from pixel_decoder.loss import dice_coef, dice_logloss2, dice_logloss3, dice_coe
 from pixel_decoder.resnet_unet import get_resnet_unet
 import keras.backend as K
 
-def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin_shape_no, border_no, channel_no):
+def train(batch_size, imgs_folder, masks_folder, trained_model, model_id, origin_shape_no, border_no, channel_no=3):
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
     all_files, all_masks = datafiles(imgs_folder, masks_folder)
@@ -59,8 +59,8 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin
         random.seed(11)
         tf.set_random_seed(11)
         print(model.summary())
-        batch_data_generat = batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256)
-        val_data_generat = val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no = 3, border_no=32, origin_shape_no = 256)
+        batch_data_generat = batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no, border_no, origin_shape_no)
+        val_data_generat = val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no, border_no, origin_shape_no)
 
 
         model.compile(loss=dice_logloss3,

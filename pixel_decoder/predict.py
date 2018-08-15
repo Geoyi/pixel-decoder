@@ -17,7 +17,7 @@ np.seterr(divide='ignore', invalid='ignore')
 from pixel_decoder.utils import stats_data, open_image, preprocess_inputs_std, cache_stats
 from pixel_decoder.resnet_unet import get_resnet_unet
 
-def predict(origin_shape, imgs_folder, models_folder, pred_folder, origin_shape_no, border_no, channel_no, model_id):
+def predict(imgs_folder, test_folder, models_folder, pred_folder, origin_shape_no, border_no, channel_no, model_id):
     origin_shape = (origin_shape_no, origin_shape_no)
     rgb_index = [0, 1, 2]
     border = (border_no, border_no)
@@ -35,11 +35,11 @@ def predict(origin_shape, imgs_folder, models_folder, pred_folder, origin_shape_
     if not path.isdir(models_folder):
         mkdir(models_folder)
 
-    for f in tqdm(sorted(listdir(path.join(imgs_folder)))):
-        if path.isfile(path.join(imgs_folder, f)) and '.tif' in f:
+    for f in tqdm(sorted(listdir(path.join(test_folder)))):
+        if path.isfile(path.join(test_folder, f)) and '.tif' in f:
             img_id = f.split('.')[0]
 
-            fpath = path.join(imgs_folder, f)
+            fpath = path.join(test_folder, f)
             img = open_image(fpath)
             # if img.shape[0] != origin_shape[0]:
             #     img= cv2.resize(img, origin_shape)

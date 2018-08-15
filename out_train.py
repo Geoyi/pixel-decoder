@@ -143,7 +143,7 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin
         K.clear_session()
 
 if __name__=="__main__":
-    batch_size = 4
+    batch_size = 32
     imgs_folder = os.path.join(os.getcwd(), "tiles")
     masks_folder = os.path.join(os.getcwd(), "labels")
     models_folder = os.path.join(os.getcwd(), "out_models")

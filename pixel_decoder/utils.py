@@ -90,7 +90,7 @@ def datafiles(imgs_folder, masks_folder):
     return all_files, all_masks
 
 # all_files,all_masks = datafiles(imgs_folder, masks_folder, models_folder)
-def rotate_image(image, angle, scale, imgs_folder, masks_folder, models_folder):
+def rotate_image(image, angle, scale, imgs_folder, masks_folder):
     all_files,all_masks = datafiles(imgs_folder, masks_folder)
     image_center = tuple(np.array(image.shape[:2])/2)
     rot_mat = cv2.getRotationMatrix2D(image_center, angle, scale)
@@ -106,11 +106,11 @@ def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_
     all_files, all_masks = datafiles(imgs_folder, masks_folder)
     # means, stds = cache_stats(imgs_folder)
     input_shape = origin_shape
+    rgb_index = [0, 1, 2]
     # input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     # input_shape = ()
     inputs = []
     outputs = []
-    rgb_index = [0, 1, 2]
     while True:
         np.random.shuffle(train_idx)
         for i in train_idx:
@@ -125,13 +125,13 @@ def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_
                 band_index = rgb_index
                 img = img[:, :, band_index]
             msk = skimage.io.imread(all_masks[i])
-            # msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0]
+#           msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0]
 
             if random.random() > 0.5:
                 scale = 0.9 + random.random() * 0.2
                 angle = random.randint(0, 41) - 24
-                img = rotate_image(img, angle, scale, imgs_folder, masks_folder, models_folder)
-                msk = rotate_image(msk, angle, scale, imgs_folder, masks_folder, models_folder)
+                img = (img, angle, scale, imgs_folder, masks_folder)
+                msk = (msk, angle, scale, imgs_folder, masks_folder)
 
             x0 = random.randint(0, img.shape[1] - input_shape[1])
             y0 = random.randint(0, img.shape[0] - input_shape[0])
@@ -184,14 +184,14 @@ def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_
             else:
                 band_index = rgb_index
                 img0 = img0[:, :, band_index]
-#             msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0:1]
+    #             msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0:1]
             msk = skimage.io.imread(all_masks[i])
             if len(msk)<=2:
                 msk = np.expand_dims(msk, 2)
             msk = (msk > 127) * 1
-#             for x0, y0 in [(0, 0)]:
-#                 img = img0[y0:y0+input_shape[0], x0:x0+input_shape[1], :]
-#                 otp = msk[y0:y0+input_shape[0], x0:x0+input_shape[1], :]
+    #             for x0, y0 in [(0, 0)]:
+    #                 img = img0[y0:y0+input_shape[0], x0:x0+input_shape[1], :]
+    #                 otp = msk[y0:y0+input_shape[0], x0:x0+input_shape[1], :]
             inputs.append(img0)
             outputs.append(msk)
             if len(inputs) == batch_size:

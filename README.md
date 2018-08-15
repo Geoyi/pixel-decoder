@@ -17,7 +17,7 @@ All these algorithms are built with Tensorflow and Keras. These are some results
 </p>
 
 <p align="center">
-<img src="result_showcase/TZ_road_out2.png" width="1000" />
+<img src="result_showcase/TZ_road_out3.png" width="1000" />
 </p>
 ### Installation
 

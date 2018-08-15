@@ -17,7 +17,7 @@ np.seterr(divide='ignore', invalid='ignore')
 from pixel_decoder.utils import stats_data, open_image, preprocess_inputs_std, cache_stats
 from pixel_decoder.resnet_unet import get_resnet_unet
 
-def predict(imgs_folder, test_folder, models_folder, pred_folder, origin_shape_no, border_no, channel_no, model_id):
+def predict(imgs_folder, test_folder, models_folder, pred_folder, origin_shape_no, border_no, model_id, channel_no=3):
     origin_shape = (origin_shape_no, origin_shape_no)
     rgb_index = [0, 1, 2]
     border = (border_no, border_no)

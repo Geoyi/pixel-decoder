@@ -14,30 +14,55 @@ All these algorithms are built with Tensorflow and Keras.
 ```bash
 git clone https://github.com/Geoyi/pixel-decoder
 cd pixel-decoder
-
+pip install -e .
 ```
 
 ### Train
 Run:
-```shell
-python pixel-decoder/main_hypo.py data/data_testset_5cl.npz
+```bash
+pixel_decoder train --batch_size=4 \
+                    --imgs_folder=tiles \
+                    --masks_folder=labels \
+                    --models_folder=trained_models_out \
+                    --model_id=resnet_unet \
+                    --origin_shape_no=256 \
+                    --border_no=32
 ```
 It takes in the training dataset that created from [`Label Maker`](https://github.com/developmentseed/label-maker).
 
-But in real life you might face these two situations for creating training dataset:
-- You have color images and the label images are in `JPG`, `TIF` or `PNG`, and are not in numpy `npz` format yet. In this situation you can use the code that I created [`data_from_imgs.py`](I will upload later!). It will create 'npz' numpy array that will read by algorithms.
 
-- You have several `npz` files that you generated and want to train together by your selected algorithm, you can go to [this line](https://github.com/developmentseed/satellite-ml-internal/blob/ff4445e2a77eb9971df6bd3f47f673054915fe8f/pixel-decoder/pixel-decoder/main_hypo.py#L165) and replace `load_data` by`stacked_data`.
+`batch_size`: batch size for the training;
+`imgs_folder`: is the directory for RGB images to train;
+`masks_folder`: is the directory for labeled mask to train;
+`model_id`: is the neural net architecture to train with. We have `resnet_unet`, `inception_unet`, `linknet_unet`, `SegNet`, `Tiramisu` as model_id live in **Pixel Decoder**.
+`origin_shape_no`: 256 is the default image tile shape from [Label Maker](https://github.com/developmentseed/label-maker);
+`border_no`: it's set to 32. It's a additional 32 pixel to add on 256 by 256 image tile to become 320 by 320 to get rid of U-Net's edge distortion.
 
 
 ### Predict
 After the model is trained and you see a trained model weight in your model directory, run:
 
-```shell
-python pixel-decoder/predict.py data/data_testset_5cl.npz Unet-20180205-070723.hdf5
+
+```bash
+pixel_decoder predict
+                    --imgs_folder=tiles \
+                    --test_folder=test_images \
+                    --models_folder=trained_models_out \
+                    --pred_folder=predictions \
+                    --model_id=resnet_unet \
+                    --origin_shape_no=256 \  
+                    --border_no=32
 ```
-In this case, my trained model weight is `Unet-20180205-070723.hdf5`.
+
+`imgs_folder`: is the directory for RGB images to train;
+`masks_folder`: is the directory for labeled mask to train. It uses to get the stats, e.g. mean and standard deviation, from training images.
+`test_folder`: is the directory for test images.
+`pred_folder`: a directory that saved all the predicted test image from test_folder;
+`model_id`: is the neural net architecture to train with. We have `resnet_unet`, `inception_unet`, `linknet_unet`, `SegNet`, `Tiramisu` as model_id live in **Pixel Decoder**.
+`origin_shape_no`: 256 is the default image tile shape from [Label Maker](https://github.com/developmentseed/label-maker);
+`border_no`: it's set to 32. It's a additional 32 pixel to add on 256 by 256 image tile to become 320 by 320 to get rid of U-Net's edge distortion.
 
 
 ## About
-pixel_decoder was built on top of python-seed that created by [Development Seed](<http://developmentseed.org>)
+To run a neural net, e.g `resnet_unet`, you can create ready-to-train dataset from [Label Maker](https://github.com/developmentseed/label-maker). A detail walkthrough notebook will come soon.
+pixel_decoder was built on top of python-seed that created by [Development Seed](<http://developmentseed.org>).

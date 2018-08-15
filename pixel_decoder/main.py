@@ -39,14 +39,14 @@ def parse_args(args):
 
     parser = subparsers.add_parser('predict', parents=[pparser], help='predict with test data', formatter_class=dhf)
     parser.add_argument('-test', '--test_folder', help='directory for RGB images to predict', required=True)
-    # parser.add_argument('-masks', '--masks_folder', help='directory for labeled mask to train', required=True)
-    parser.add_argument('-chns', '--channel_no', help='RGB three color channels for the training', default=3, type=int, required=False)
+    parser.add_argument('-imgs', '--imgs_folder', help='directory for labeled mask to train', type=str, required=True)
+    parser.add_argument('-model', '--models_folder', default='trained_models', help='directory for storing output files', type=str, required=True)
     parser.add_argument('-pred', '--pred_folder', help='directory to save the predicted images',  required=True)
     parser.add_argument('-mid', '--model_id', help='model id from README', default='resnet_unet',type=str, required=False)
     parser.add_argument('-ors', '--origin_shape_no', help='the image shape of the input training images', default=256, type=int, required=False)
     parser.add_argument('-border', '--border_no', help='pixels number to add on training image and mask to get rid of edge effects from unet', default=32, type=int, required=False)
     # parser.add_argument('-chns', '--channel_no', help='RGB three color channels for the training', default=3, type=int, required=False)
-
+#imgs_folder, test_folder, models_folder, pred_folder, origin_shape_no, border_no, model_id, channel_no=3
     parsed_args = vars(parser0.parse_args(args))
 
     return parsed_args

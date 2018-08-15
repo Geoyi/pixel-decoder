@@ -73,15 +73,13 @@ def preprocess_inputs_std(x, mean, std):
     x[zero_msk] = 0
     return x
 
-def datafiles(imgs_folder, masks_folder, models_folder):
+def datafiles(imgs_folder, masks_folder):
     all_files = []
     all_masks = []
     t0 = timeit.default_timer()
     # imgs_folder = sys.argv[2]
     # masks_folder = os.path.join(os.getcwd(),sys.argv[3])
     # models_folder = os.path.join(os.getcwd(),sys.argv[4])
-    if not path.isdir(models_folder):
-        mkdir(models_folder)
     for f in sorted(listdir(path.join(os.getcwd(), imgs_folder))):
         if path.isfile(path.join(os.getcwd(),imgs_folder, f)) and '.tif' in f:
             img_id = f.split('.')[0]
@@ -93,7 +91,7 @@ def datafiles(imgs_folder, masks_folder, models_folder):
 
 # all_files,all_masks = datafiles(imgs_folder, masks_folder, models_folder)
 def rotate_image(image, angle, scale, imgs_folder, masks_folder, models_folder):
-    all_files,all_masks = datafiles(imgs_folder, masks_folder, models_folder)
+    all_files,all_masks = datafiles(imgs_folder, masks_folder)
     image_center = tuple(np.array(image.shape[:2])/2)
     rot_mat = cv2.getRotationMatrix2D(image_center, angle, scale)
     result = cv2.warpAffine(image, rot_mat, image.shape[:2],flags=cv2.INTER_LINEAR)
@@ -105,7 +103,7 @@ def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_
     # all_files, all_masks = datafiles()
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
-    all_files, all_masks = datafiles(imgs_folder, masks_folder, models_folder)
+    all_files, all_masks = datafiles(imgs_folder, masks_folder)
     # means, stds = cache_stats(imgs_folder)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     # input_shape = ()
@@ -163,10 +161,10 @@ def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_
 def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_folder, masks_folder, models_folder, channel_no, border_no, origin_shape_no):
     origin_shape = (origin_shape_no, origin_shape_no)
     border = (border_no, border_no)
-    all_files, all_masks = datafiles(imgs_folder, masks_folder, models_folder)
+    all_files, all_masks = datafiles(imgs_folder, masks_folder)
     # means, stds = cache_stats(imgs_folder)
     input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
-    all_files,all_masks = datafiles(imgs_folder, masks_folder, models_folder)
+    all_files,all_masks = datafiles(imgs_folder, masks_folder)
     rgb_index = [0, 1, 2]
     while True:
         inputs = []

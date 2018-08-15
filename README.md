@@ -7,8 +7,18 @@ Pixel Decoder is a tool that contains several current available semantic segment
 ![encoder-decoder](https://user-images.githubusercontent.com/14057932/37719742-14b23582-2cfc-11e8-8242-a3773df31bc2.png)
 The encoder reads in the image pixels and compresses the information in vector, downsample to save computing memory; and the decoder works on reconstructing the pixels spatial information and output the desired outcome. Some UNet-like algorithms were adopted from SpaceNet challenge solutions.
 
-All these algorithms are built with Tensorflow and Keras.
+All these algorithms are built with Tensorflow and Keras. These are some results for road segmentation from Pixel Decoder we got.
+<p align="center">
+<img src="result_showcase/TZ_road_out.png" width="1000" />
+</p>
 
+<p align="center">
+<img src="result_showcase/TZ_road_out1.png" width="1000" />
+</p>
+
+<p align="center">
+<img src="result_showcase/TZ_road_out2.png" width="1000" />
+</p>
 ### Installation
 
 ```bash

@@ -123,7 +123,8 @@ def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_
             else:
                 band_index = rgb_index
                 img = img[:, :, band_index]
-            msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0]
+            msk = skimage.io.imread(all_masks[i])
+            # msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0]
 
             if random.random() > 0.5:
                 scale = 0.9 + random.random() * 0.2

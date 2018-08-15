@@ -17,20 +17,14 @@ from pixel_decoder.loss import dice_coef, dice_logloss2, dice_logloss3, dice_coe
 from pixel_decoder.resnet_unet import get_resnet_unet
 import keras.backend as K
 
-def train(batch_size, imgs_folder, masks_folder, trained_model, model_id, origin_shape_no, border_no, channel_no=3):
-    origin_shape = (origin_shape_no, origin_shape_no)
-    border = (border_no, border_no)
+def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin_shape_no, border_no, channel_no=3):
+    origin_shape = (int(origin_shape_no), int(origin_shape_no))
+    border = (int(border_no), int(border_no))
+    input_shape = origin_shape
     all_files, all_masks = datafiles(imgs_folder, masks_folder)
     means, stds = cache_stats(imgs_folder)
-    input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     if model_id == 'resnet_unet':
         model = get_resnet_unet(input_shape, channel_no)
-    # elif model_id == 'inception_unet':
-    #     from pixel_decoder.inception_unet import get_inception_resnet_v2_unet
-    #     model = get_inception_resnet_v2_unet(input_shape, channel_no)
-    # elif model_id == 'linknet_unet':
-    #     from pixel_decoder.linknet_unet import get_resnet50_linknet
-    #     model = get_resnet50_linknet(input_shape, channel_no)
     else:
         print('No model loaded!')
 

@@ -28,7 +28,7 @@ def parse_args(args):
     parser.add_argument('-bz', '--batch_size', help='batch size for the training', default=16, type=int, required=True)
     parser.add_argument('-imgs', '--imgs_folder', help='directory for RGB images to train', type=str, required=True)
     parser.add_argument('-masks', '--masks_folder', help='directory for labeled mask to train', type=str, required=True)
-    parser.add_argument('-trained', '--trained_model', default='trained_models', help='directory for storing output files', type=str, required=True)
+    parser.add_argument('-model', '--models_folder', default='trained_models', help='directory for storing output files', type=str, required=True)
     parser.add_argument('-mid', '--model_id', help='model id from README', default='resnet_unet', type=str, required=False)
     parser.add_argument('-ors', '--origin_shape_no', help='the image shape of the input training images', default=256, type=int, required=False)
     parser.add_argument('-border', '--border_no', help='pixels number to add on training image and mask to get rid of edge effects from unet', default=32, type=int, required=False)

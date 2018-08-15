@@ -32,10 +32,7 @@ RUN conda install opencv \
     shapely \
     tensorflow-gpu \
     keras \
-    scikit-learn \
-    jupyter
-
-ENV PYCURL_SSL_LIBRARY=nss
+    scikit-learn
 
 
 WORKDIR /work

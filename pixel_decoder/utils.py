@@ -84,7 +84,7 @@ def datafiles(imgs_folder, masks_folder):
         if path.isfile(path.join(os.getcwd(),imgs_folder, f)) and dataformat(path.join(os.getcwd(),imgs_folder, f)) in f:
             img_id = f.split('.')[0]
             all_files.append(path.join(os.getcwd(), imgs_folder, f))
-            all_masks.append(path.join(masks_folder, '{0}.{1}'.format(img_id, dataformat(path.join(os.getcwd(),imgs_folder, f)))))
+            all_masks.append(path.join(masks_folder, '{0}.{1}'.format(img_id, 'png')))
     all_files = np.asarray(all_files)
     all_masks = np.asarray(all_masks)
     return all_files, all_masks

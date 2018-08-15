@@ -8,16 +8,8 @@ random.seed(1)
 import tensorflow as tf
 tf.set_random_seed(1)
 import timeit
-# from PIL import Image
 import cv2
-# from sklearn.model_selection import KFold
-# from keras.optimizers import SGD, Adam
-# from keras import metrics
-# from keras.callbacks import ModelCheckpoint
-# from pixel_decoder.resnet_unet import get_resnet_unet
-# from pixel_decoder.loss import dice_coef, dice_logloss2, dice_logloss3, dice_coef_rounded, dice_logloss
 import skimage.io
-# import keras.backend as K
 
 def dataformat(fn):
     basename, ext = os.path.splitext(fn)
@@ -30,7 +22,6 @@ def stats_data(data):
     else:
         means = np.mean(data, axis = (0, 1))
         stds = np.std(data, axis = (0, 1))
-    # print(means)
     return means, stds
 
 def color_scale(arr):
@@ -100,15 +91,11 @@ def rotate_image(image, angle, scale, imgs_folder, masks_folder):
  # = cache_stats(imgs_folder)
 
 def batch_data_generator(train_idx, batch_size, means, stds, imgs_folder, masks_folder, models_folder, channel_no, border_no, origin_shape_no):
-    # all_files, all_masks = datafiles()
     origin_shape = (int(origin_shape_no), int(origin_shape_no))
     border = (border_no, border_no)
     all_files, all_masks = datafiles(imgs_folder, masks_folder)
-    # means, stds = cache_stats(imgs_folder)
     input_shape = origin_shape
     rgb_index = [0, 1, 2]
-    # input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
-    # input_shape = ()
     inputs = []
     outputs = []
     while True:
@@ -168,7 +155,6 @@ def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_
     all_files, all_masks = datafiles(imgs_folder, masks_folder)
     input_shape = origin_shape
     means, stds = cache_stats(imgs_folder)
-    # input_shape = (origin_shape[0] + border[0] + border[1] , origin_shape[1] + border[0] + border[1])
     all_files,all_masks = datafiles(imgs_folder, masks_folder)
     rgb_index = [0, 1, 2]
     while True:
@@ -176,7 +162,6 @@ def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_
         outputs = []
         step_id = 0
         for i in val_idx:
-            # img0 = skimage.io.imread(all_files[i], plugin='tifffile')
             img0 = open_image(all_files[i])
             if img0.shape[0] != origin_shape[0]:
                 img0= cv2.resize(img0, origin_shape)
@@ -186,14 +171,10 @@ def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_
             else:
                 band_index = rgb_index
                 img0 = img0[:, :, band_index]
-            #msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0:1]
             msk = skimage.io.imread(all_masks[i])
             if len(msk.shape)<=2:
                 msk = np.expand_dims(msk, 2)
             msk = (msk > 127) * 1
-            #for x0, y0 in [(0, 0)]:
-                #img = img0[y0:y0+input_shape[0], x0:x0+input_shape[1], :]
-                #otp = msk[y0:y0+input_shape[0], x0:x0+input_shape[1], :]
             inputs.append(img0)
             outputs.append(msk)
             if len(inputs) == batch_size:
@@ -201,8 +182,6 @@ def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_
                 inputs = np.asarray(inputs)
                 outputs = np.asarray(outputs, dtype='float')
                 inputs = preprocess_inputs_std(inputs, means, stds)
-                    # print(inputs.shape, outputs.shape)
-                    # print(np.unique(inputs))
                 yield inputs, outputs
                 inputs = []
                 outputs = []

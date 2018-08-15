@@ -1,7 +1,6 @@
 # import os
 from os import path, mkdir
 from pixel_decoder.utils import datafiles, cache_stats, batch_data_generator, val_data_generator
-# import sys
 
 import numpy as np
 np.random.seed(1)
@@ -16,18 +15,7 @@ from keras import metrics
 from keras.callbacks import ModelCheckpoint
 from pixel_decoder.loss import dice_coef, dice_logloss2, dice_logloss3, dice_coef_rounded, dice_logloss
 from pixel_decoder.resnet_unet import get_resnet_unet
-# import skimage.io
 import keras.backend as K
-
-
-
-# channel_no = 3
-# input_shape = (320, 320)
-# batch_size = 16
-# model_id = sys.argv[1]
-# imgs_folder = sys.argv[2]
-# masks_folder = sys.argv[3]
-# models_folder =sys.argv[4]
 
 def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin_shape_no, border_no, channel_no):
     origin_shape = (origin_shape_no, origin_shape_no)

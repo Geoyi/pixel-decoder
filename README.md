@@ -1,32 +1,21 @@
 # Pixel Decoder
 
-In computer vision, there are three challenges: image classification, object detection and semantic segmentation.
 ![computervision](https://user-images.githubusercontent.com/14057932/37719364-3e953da0-2cfb-11e8-8140-f5f12bb806d9.png)
-As you see above, semantic segmentation can segment an image into different parts and objects (e.g.grass, cat, tree, sky).
+In **computer vision**, there are three challenges: image classification, object detection and **semantic segmentation**. As you see above, semantic segmentation can segment an image into different parts and objects (e.g.grass, cat, tree, sky).
 
-Pixel Decoder is a tool that contains several current available semantic segmentation algorithms. It was built on top of SpaceNet challenge solutions. It includes Standard Unet and its modified versions, Tiramisu and SegNet. SegNet is the algorithm that Skynet was built on. All the algorithms that live inside Pixel Decoder are convolutional neural networks are all in a structure that called encoder-decoder.
+Pixel Decoder is a tool that contains several current available semantic segmentation algorithms. **Pixel Decoder** includes Standard Unet and its modified versions, Tiramisu and SegNet. SegNet is the algorithm that Skynet was built on. All the algorithms that live inside Pixel Decoder are convolutional neural networks are all in a structure that called encoder-decoder.
 ![encoder-decoder](https://user-images.githubusercontent.com/14057932/37719742-14b23582-2cfc-11e8-8242-a3773df31bc2.png)
-The encoder reads in the image pixels and compresses the information in vector, downsample to save computing memory; and the decoder works on reconstructing the pixels spatial information and output the desired outcome.
+The encoder reads in the image pixels and compresses the information in vector, downsample to save computing memory; and the decoder works on reconstructing the pixels spatial information and output the desired outcome. Some UNet-like algorithms were adopted from SpaceNet challenge solutions.
 
-You can see all the following algorithms are all included in, they are ordered by the total model parameters. With the same size of dataset and batch size, a heavier algorithm with take a longer time to tune every parameter, and the training process will take longer time.
+All these algorithms are built with Tensorflow and Keras.
 
-|Algorithm | Weight (total params)|
-| --- | --- |
-| Unet_mini | light - 1,962,625 |
-|SegNet| light - 5,467,265 |
-| Unet | mid -  7,846,657 |
-| Unet_Dilated | mid -  7,846,657 |
-|Unet_ level_7 | mid -  7,846,657 |
-|Dilated_Unet| heavy -14,839,521|
-|Unet_ level_8 | heavy -  31,462,273 |
-| Tiramisu | very heavy - 70,372,786 |
+### Installation
 
-All these algorithms are built with Tensorflow and Keras. If your training dataset is smaller than 60M, you can try a light- to a mid-weight algorithm, with 16 batch size, each epoch might take about 1- 1.5 minute to run. As long as `tensorflow-gpu` is installed and GPU can be detected by Tensorflow, the training will be speeded up. Each epoch will speed up to between 20 - 30 second for the training dataset and batch size.
-Theoretically, I recommend starting with Unet and SegNet for training.
+```bash
+git clone https://github.com/Geoyi/pixel-decoder
+cd pixel-decoder
 
-### Start
-
-To set up a [python environment](https://gist.github.com/wronk/a902185f5f8ed018263d828e1027009b) and check what do you need to install in above `requirement.txt`
+```
 
 ### Train
 Run:

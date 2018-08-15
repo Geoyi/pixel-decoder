@@ -184,7 +184,9 @@ def val_data_generator(val_idx, batch_size, validation_steps, means, stds, imgs_
             else:
                 band_index = rgb_index
                 img0 = img0[:, :, band_index]
-            msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0:1]
+
+            # msk = cv2.imread(all_masks[i], cv2.IMREAD_UNCHANGED)[..., 0:1]
+            msk = skimage.io.imread(all_masks[i])
             msk = (msk > 127) * 1
             for x0, y0 in [(0, 0)]:
                 img = img0[y0:y0+input_shape[0], x0:x0+input_shape[1], :]

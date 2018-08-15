@@ -1,8 +1,8 @@
 *.pyc
 *~
 *.egg-info
-build/
-dist/
+tiles/
+labels/
 *.eggs
 MANIFEST
 .DS_Store

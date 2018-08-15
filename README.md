@@ -44,8 +44,7 @@ After the model is trained and you see a trained model weight in your model dire
 
 
 ```bash
-pixel_decoder predict
-                    --imgs_folder=tiles \
+pixel_decoder predict --imgs_folder=tiles \
                     --test_folder=test_images \
                     --models_folder=trained_models_out \
                     --pred_folder=predictions \
@@ -97,8 +96,7 @@ pixel_decoder train --batch_size=4 \
 **Predict**
 
 ```bash
-pixel_decoder predict
-                    --imgs_folder=tiles \
+pixel_decoder predict --imgs_folder=tiles \
                     --test_folder=test_images \
                     --models_folder=trained_models_out \
                     --pred_folder=predictions \

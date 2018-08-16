@@ -9,7 +9,6 @@ random.seed(1)
 import tensorflow as tf
 tf.set_random_seed(1)
 from sklearn.model_selection import KFold
-# import cv2
 from keras.optimizers import SGD, Adam
 from keras import metrics
 from keras.callbacks import ModelCheckpoint

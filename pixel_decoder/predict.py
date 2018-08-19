@@ -14,7 +14,7 @@ np.random.seed(1)
 tf.set_random_seed(1)
 np.seterr(divide='ignore', invalid='ignore')
 
-from pixel_decoder.utils import stats_data, open_image, preprocess_inputs_std, cache_stats
+from pixel_decoder.utils import dataformat, stats_data, open_image, preprocess_inputs_std, cache_stats
 from pixel_decoder.resnet_unet import get_resnet_unet
 
 def predict(imgs_folder, test_folder, models_folder, pred_folder, origin_shape_no, border_no, model_id, channel_no=3):
@@ -36,6 +36,7 @@ def predict(imgs_folder, test_folder, models_folder, pred_folder, origin_shape_n
         mkdir(models_folder)
 
     for f in tqdm(sorted(listdir(path.join(test_folder)))):
+        format = dataformat(path.join(test_folder, f))
         if path.isfile(path.join(test_folder, f)) and '.tif' in f:
             img_id = f.split('.')[0]
 

@@ -12,3 +12,5 @@ data
 /integration*
 .idea/
 .ipynb_checkpoints/
+trained_models_out/
+predictions/

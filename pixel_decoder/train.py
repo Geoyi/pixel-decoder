@@ -9,6 +9,7 @@ random.seed(1)
 import tensorflow as tf
 tf.set_random_seed(1)
 from sklearn.model_selection import KFold
+# import cv2
 from keras.optimizers import SGD, Adam
 from keras import metrics
 from keras.callbacks import ModelCheckpoint
@@ -16,14 +17,14 @@ from pixel_decoder.loss import dice_coef, dice_logloss2, dice_logloss3, dice_coe
 from pixel_decoder.resnet_unet import get_resnet_unet
 import keras.backend as K
 
-def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin_shape_no, border_no, channel_no=3):
+def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin_shape_no, border_no, classes =1, channel_no=3):
     origin_shape = (int(origin_shape_no), int(origin_shape_no))
     border = (int(border_no), int(border_no))
     input_shape = origin_shape
     all_files, all_masks = datafiles(imgs_folder, masks_folder)
     means, stds = cache_stats(imgs_folder)
     if model_id == 'resnet_unet':
-        model = get_resnet_unet(input_shape, channel_no)
+        model = get_resnet_unet(input_shape, channel_no, classes)
     else:
         print('No model loaded!')
 
@@ -76,7 +77,7 @@ def train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin
         model.fit_generator(generator=batch_data_generat,
                             epochs=40, steps_per_epoch=steps_per_epoch, verbose=2,
                             validation_data=val_data_generat,
-                            validation_steps=validation_steps,
+                             validation_steps=validation_steps,
                             callbacks=[model_checkpoint])
         model.optimizer = Adam(lr=2e-4)
         model.fit_generator(generator=batch_data_generat,

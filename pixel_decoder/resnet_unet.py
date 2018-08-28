@@ -23,7 +23,7 @@ def conv_block(prev, num_filters, kernel=(3, 3), strides=(1, 1), act='relu', pre
     conv = Activation(act, name=name)(conv)
     return conv
 
-def get_resnet_unet(input_shape,channel_no, weights='imagenet'):
+def get_resnet_unet(input_shape,channel_no, classes = 1, weights='imagenet'):
     bn_axis = 3
     inp = Input(input_shape + (channel_no,))
 
@@ -77,7 +77,7 @@ def get_resnet_unet(input_shape,channel_no, weights='imagenet'):
     up10 = concatenate([UpSampling2D()(conv9), inp], axis=-1)
     conv10 = conv_block(up10, 32)
     conv10 = conv_block(conv10, 32)
-    res = Conv2D(1, (1, 1), activation='sigmoid')(conv10)
+    res = Conv2D(classes, (1, 1), activation='sigmoid')(conv10)
     model = Model(inp, res)
 
     if weights == 'imagenet':

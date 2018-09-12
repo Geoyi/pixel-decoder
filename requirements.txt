@@ -35,7 +35,7 @@ unicodecsv==0.14.1
 urllib3==1.22
 wcwidth==0.1.7
 webencodings==0.5.1
-Werkzeug==0.12.2
+Werkzeug==0.14
 widgetsnbextension>=3.1.0
 wrapt==1.10.11
 xlrd==1.1.0

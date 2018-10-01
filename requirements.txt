@@ -1,6 +1,6 @@
 Cython==0.26.1
 dask==0.15.3
-decorator==4.1.2
+decorator==4.3.0
 distributed==1.19.1
 docutils==0.14
 entrypoints==0.2.3
@@ -11,6 +11,7 @@ lxml==4.1.0
 Markdown==2.6.11
 MarkupSafe==1.0
 matplotlib==2.1.0
+opencv-python==3.4.3.18
 packaging==16.8
 pandas==0.20.3
 pyflakes==1.6.0
@@ -27,6 +28,7 @@ Shapely==1.6.4.post1
 simplegeneric==0.8.1
 singledispatch==3.4.0.3
 six==1.11.0
+tensorflow==1.10.0
 tornado==4.5.2
 tqdm==4.23.0
 traitlets==4.3.2

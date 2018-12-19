@@ -32,7 +32,6 @@ def parse_args(args):
     parser.add_argument('-mid', '--model_id', help='model id from README', default='resnet_unet', type=str, required=False)
     parser.add_argument('-ors', '--origin_shape_no', help='the image shape of the input training images', default=256, type=int, required=False)
     parser.add_argument('-border', '--border_no', help='pixels number to add on training image and mask to get rid of edge effects from unet', default=32, type=int, required=False)
-    # parser.add_argument('-chns', '--channel_no', help='RGB three color channels for the training', default=3, type=int, required=True)
 
 
     # train(batch_size, imgs_folder, masks_folder, models_folder, model_id='resnet_unet', origin_shape=(256, 256), border=(32, 32), channel_no = 3)
@@ -45,8 +44,6 @@ def parse_args(args):
     parser.add_argument('-mid', '--model_id', help='model id from README', default='resnet_unet',type=str, required=False)
     parser.add_argument('-ors', '--origin_shape_no', help='the image shape of the input training images', default=256, type=int, required=False)
     parser.add_argument('-border', '--border_no', help='pixels number to add on training image and mask to get rid of edge effects from unet', default=32, type=int, required=False)
-    # parser.add_argument('-chns', '--channel_no', help='RGB three color channels for the training', default=3, type=int, required=False)
-#imgs_folder, test_folder, models_folder, pred_folder, origin_shape_no, border_no, model_id, channel_no=3
     parsed_args = vars(parser0.parse_args(args))
 
     return parsed_args
@@ -56,22 +53,10 @@ def main(cmd, **kwargs):
         train(**kwargs)
     elif cmd == 'predict':
         predict(**kwargs)
-# def main(cmd, batch_size, imgs_folder, test_folder, masks_folder, models_folder,pred_folder, model_id, origin_shape_no, border_no, channel_no):
-#     if cmd == 'train':
-#         train(batch_size, imgs_folder, masks_folder, models_folder, model_id, origin_shape_no, border_no, channel_no)
-#     elif cmd == 'predict':
-#         predict(imgs_folder, test_folder, models_folder, pred_folder, origin_shape_no, border_no, channel_no, model_id)
-
 
 def cli():
     args = parse_args(sys.argv[1:])
     logger.setLevel(args.pop('log') * 10)
-    # cmd = args.pop('command')
-    # out_folder = args.get('trained_model')
-    #
-    # # create destination directory to save the trained model
-    # if not op.isdir(op.join(os.getcwd(),out_folder)):
-    #     makedirs(out_folder)
     main(args.pop('command'), **args)
 
 

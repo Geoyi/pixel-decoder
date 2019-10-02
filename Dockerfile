@@ -25,7 +25,8 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
 
 ENV PATH /opt/conda/bin:$PATH
 
-RUN apt-get update && apt-get install -y libglu1 vim
+RUN apt-get update && apt-get install -y libglu1 vim && pip install Cython tensorflow==1.8.1 keras==2.2.1 \
+    h5py matplotlib pandas pylint scikit-image scikit-learn scipy seaborn Shapely tqdm opencv-python
 
 
 WORKDIR /work

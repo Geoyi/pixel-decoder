@@ -1,5 +1,6 @@
 Cython
-h5py
+tensorflow==1.8.1
+keras==2.2.1h5py
 matplotlib
 pandas
 pylint
@@ -9,5 +10,4 @@ scipy
 seaborn
 Shapely
 tqdm
-tensorflow==1.8.1
-keras==2.2.1
+opencv-python

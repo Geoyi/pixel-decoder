@@ -1,6 +1,7 @@
 Cython
 tensorflow==1.8.1
-keras==2.2.1h5py
+keras==2.2.1
+h5py
 matplotlib
 pandas
 pylint

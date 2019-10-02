@@ -27,15 +27,10 @@ ENV PATH /opt/conda/bin:$PATH
 
 RUN apt-get update && apt-get install -y libglu1 vim
 
-RUN conda install opencv \
-    tqdm \
-    shapely \
-    tensorflow-gpu \
-    keras \
-    scikit-learn
-
 
 WORKDIR /work
 
 # copy entire directory where docker file is into docker container at /work
 COPY . /work/
+
+RUN pip install -e .

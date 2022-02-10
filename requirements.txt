@@ -1,5 +1,5 @@
 Cython
-tensorflow==1.15.2
+tensorflow==2.5.3
 keras==2.2.1
 h5py
 matplotlib
